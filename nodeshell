@@ -10,4 +10,4 @@ export NODE_ENV=$env
 export APP_PATH=$appPath
 export LOG_PATH=$logPath
 #########################start####################
-node $appPath/app.js
+node $appPath/bin/start

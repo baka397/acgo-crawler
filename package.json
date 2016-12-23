@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "Crawler project for acgo.club",
   "private": true,
-  "main": "app.js",
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node ./bin/start",
+    "init":"node init.js",
     "test": "set NODE_ENV=case&& node ./node_modules/mocha/bin/mocha --timeout 200000",
     "test-cov": "set NODE_ENV=case&& node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha"
   },
