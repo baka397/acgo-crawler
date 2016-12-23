@@ -1,7 +1,7 @@
 {
   "name": "acgo-crawler",
   "version": "1.0.0",
-  "description": "Crawler project for acgo.club",
+  "description": "NodeJs crawler system for acgo website",
   "private": true,
   "scripts": {
     "start": "node ./bin/start",
