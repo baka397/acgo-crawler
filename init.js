@@ -17,4 +17,5 @@ request.post(config.apiPath+'/user/')
     }else{
         console.log('应用初始化完成');
     }
+    process.exit(1);
 });

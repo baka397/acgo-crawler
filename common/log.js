@@ -6,7 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const log4js = require('log4js');
-const config = require('./config/');
+const config = require('../config/');
 let logPath = process.env.LOG_PATH || config.log.path, logType = config.log.type, logLevel = config.log.level;
 //同步创建日志目录
 try{
@@ -46,7 +46,4 @@ log4js.configure({
 });
 let logger = log4js.getLogger(logType || 'dateFileLog');
 
-exports.logger = logger;
-exports.use = function (app) {
-	app.use(log4js.connectLogger(logger, {level: logLevel, format: ':method :url'}));
-};
+module.exports = logger;
