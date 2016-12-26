@@ -1,6 +1,7 @@
 'use strict';
 const crawler = require('../../modules/crawler/');
 const bilibiliTest = require('./bilibili');
+const dilidiliTest = require('./dilidili');
 module.exports=function(){
     describe('Common', function(){
         it('Wrong type', function (done) {
@@ -15,6 +16,7 @@ module.exports=function(){
         });
     });
     describe('Crawler Type Test', function(){
-        bilibiliTest(crawler)
+        bilibiliTest(crawler);
+        dilidiliTest(crawler);
     })
 }

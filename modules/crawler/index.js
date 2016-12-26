@@ -1,5 +1,6 @@
 'use strict';
 const bilibili=require('./bilibili');
+const dilidili=require('./dilidili');
 const tool = require('../../common/tool');
 /**
  * 抓取任务
@@ -12,6 +13,8 @@ module.exports=function(type,taskId,url){
     switch(type){
         case 1:
             return bilibili(taskId,url);
+        case 2:
+            return dilidili(taskId,url);
         default:
             return tool.nextPromise(new Error('错误的抓取任务类型'));
     }

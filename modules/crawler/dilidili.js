@@ -3,7 +3,7 @@ const tool = require('../../common/tool');
 const log = require('../../common/log');
 const ANIME_GROUP = require('../../enums/anime_group');
 const agent = require('./agent');
-const groupType='1';
+const groupType='2';
 
 module.exports=function(taskId,url){
     if(!ANIME_GROUP.type[groupType].taskRegExp.test(url)){
@@ -12,13 +12,13 @@ module.exports=function(taskId,url){
     }
     return agent(url).then(function($){
         let animeList=[];
-        let $animeDom=$('.complete-list .v1-bangumi-list-part-child');
+        let $animeDom=$('.swiper-container').eq(0).find('li a');
         $animeDom.each(function(){
-            let $this=$(this);
-            let $bangumi=$this.find('.v1-complete-text');
+            let $bangumi=$(this);
             let url=$bangumi.attr('href');
-            let no=$bangumi.find('.text-wrp-num-content').text().replace(/第(\d+)话/g,'$1').trim();
-            let title=$bangumi.find('.text-wrp-title').text().trim();
+            let no=$bangumi.find('em span').text().replace(/第(\d+)话/g,'$1').trim();
+            let title=$bangumi.find('em').text().trim();
+            title=title.replace(/^[\S\s]+\s第\S+话([\S\s]+)$/i,'$1').trim();
             if(!ANIME_GROUP.type[groupType].itemRegExp.test(url)){
                 log.error('错误的分集地址,被抛弃,taskId:'+taskId);
                 return true;
