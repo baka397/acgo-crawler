@@ -5,20 +5,22 @@ const request = require('superagent');
 const authTool = require('../common/auth');
 const STATUS_CODE = require('../enums/status_code');
 const URL = {
-    login: PATH+'/user/login/',
-    task: PATH+'/anime-group/task/'
+    userLogin: PATH+'/user/login/',
+    getGrouptask: PATH+'/anime-group/task/',
+    getGroupDetail: PATH+'/anime-group/:id',
+    addGroupItem: PATH+'/anime-group/item/'
 }
-let apiTokenParams=authTool.getTokenParams(config.apiKey,config.apiAlias);
+let apiTokenParams=authTool.getTokenParams(CONFIG.apiKey,CONFIG.apiAlias);
 function getTokenParam(){
     return new Promise(function(resolve,reject){
         if(apiTokenParams['x-req-key']){
             resolve(apiTokenParams);
         }else{
-            request.post(URL.login)
+            request.post(URL.userLogin)
             .set(apiTokenParams)
             .send({
                 'email':CONFIG.apiEmail,
-                'password':CONFIG.apiPwd
+                'password':authTool.getPassword(CONFIG.apiPwd)
             })
             .end(function(err,res){
                 if(err) reject(err);
@@ -31,7 +33,7 @@ function getTokenParam(){
     })
 }
 
-function request(url,data,method){
+function apiRequest(url,data,method){
     method=method?method.toLowerCase():'get';
     if (method === 'get' && data) {
         url += (/\?/.test(url) ? '&' : '?') + queryString.stringify(data);
@@ -55,7 +57,7 @@ function request(url,data,method){
                     return reject(err);
                 }
                 LOG.info(res.body);
-                if(res.status!==200||res.body.code!==STATUS_CODE.SUCCESS){
+                if(res.code!==200||res.body.code!==STATUS_CODE.SUCCESS){
                     return resolve(res.body.data);
                 }else{
                     let error = new Error(res.body.msg||'API处理错误');
@@ -70,7 +72,16 @@ function request(url,data,method){
 exports.getAnimeGroupTask=function(taskPeriod){
     taskPeriod=parseInt(taskPeriod);
     if(taskPeriod===0) taskPeriod=7;
-    return request(URL.task,{
+    return apiRequest(URL.getGrouptask,{
         taskPeriod:taskPeriod
     })
+}
+
+exports.getAnimeGroupInfo=function(groupId){
+    let url=URL.getGroupDetail.replace(/\:id$/,groupId)
+    return apiRequest(url)
+}
+
+exports.addGroupItem=function(data){
+    return apiRequest(URL.addGroupItem,data,'post')
 }
