@@ -7,7 +7,7 @@ const STATUS_CODE = require('../enums/status_code');
 const URL = {
     userLogin: PATH+'/user/login/',
     getGrouptask: PATH+'/anime-group/task/',
-    getGroupDetail: PATH+'/anime-group/:id',
+    getGroupList: PATH+'/anime-group/ids/',
     addGroupItem: PATH+'/anime-group/item/'
 }
 let apiTokenParams=authTool.getTokenParams(CONFIG.apiKey,CONFIG.apiAlias);
@@ -49,14 +49,14 @@ function apiRequest(url,data,method){
             .set(token)
             if(method!=='get'&&data){
                 requestObj.send(data);
-                LOG.info(data);
+                LOG.info(JSON.stringify(data));
             }
             requestObj.end(function(err,res){
                 if(err){
                     LOG.error(err);
                     return reject(err);
                 }
-                LOG.info(res.body);
+                LOG.info(JSON.stringify(res.body));
                 if(res.code!==200||res.body.code!==STATUS_CODE.SUCCESS){
                     return resolve(res.body.data);
                 }else{
@@ -69,17 +69,19 @@ function apiRequest(url,data,method){
     })
 }
 
-exports.getAnimeGroupTask=function(taskPeriod){
+exports.getAnimeGroupTask=function(taskPeriod,page){
     taskPeriod=parseInt(taskPeriod);
-    if(taskPeriod===0) taskPeriod=7;
-    return apiRequest(URL.getGrouptask,{
+    let sendData={
         taskPeriod:taskPeriod
-    })
+    }
+    if(page) sendData.page=page;
+    return apiRequest(URL.getGrouptask,sendData)
 }
 
-exports.getAnimeGroupInfo=function(groupId){
-    let url=URL.getGroupDetail.replace(/\:id$/,groupId)
-    return apiRequest(url)
+exports.getAnimeGroupInfo=function(ids){
+    return apiRequest(URL.getGroupList,{
+        ids:ids
+    })
 }
 
 exports.addGroupItem=function(data){

@@ -16,25 +16,25 @@ module.exports=function(taskId,url){
         $animeDom.each(function(){
             let $this=$(this);
             let $bangumi=$this.find('.v1-complete-text');
-            let url=$bangumi.attr('href');
+            let url='http:'+$bangumi.attr('href');
             let no=$bangumi.find('.text-wrp-num-content').text().replace(/第(\d+)话/g,'$1').trim();
             let title=$bangumi.find('.text-wrp-title').text().trim();
             if(!ANIME_GROUP.type[groupType].itemRegExp.test(url)){
-                log.error('错误的分集地址,被抛弃,taskId:'+taskId);
+                log.warn('错误的分集地址,被抛弃,taskId:'+taskId+',url:'+url);
                 return true;
             }
             if(isNaN(no)){
-                log.error('错误的分集号,被抛弃,taskId:'+taskId);
+                log.warn('错误的分集号,被抛弃,taskId:'+taskId+',no:'+no);
                 return true;
             }
             if(!title){
-                log.error('错误的分集标题,被抛弃,taskId:'+taskId);
+                log.warn('错误的分集标题,被抛弃,taskId:'+taskId+',title:'+title);
                 return true;
             }
             animeList.push({
                 url:url,
-                episode_no:parseInt(no),
-                episode_name:title
+                episodeNo:parseInt(no),
+                episodeName:title
             })
         })
         return tool.nextPromise(null,animeList);

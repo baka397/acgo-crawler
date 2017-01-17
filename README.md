@@ -20,3 +20,15 @@ ACGO crawler Project
 <br />
 日志采用log4js、全局对象LOG、支持trace、debug、info、warn、error、fatal
 <br />
+
+运行
+--------
+##定义抓取周期
+如果未定义,则使用当前服务器时间.
+```
+//window
+set NODE_TASK_PERIOD=6 //设置周期
+npm start //启动任务
+//linux
+nodeshell 6 //使用shell配置周期
+```

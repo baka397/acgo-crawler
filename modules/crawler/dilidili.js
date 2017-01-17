@@ -20,21 +20,21 @@ module.exports=function(taskId,url){
             let title=$bangumi.find('em').text().trim();
             title=title.replace(/^[\S\s]+\s第\S+话([\S\s]+)$/i,'$1').trim();
             if(!ANIME_GROUP.type[groupType].itemRegExp.test(url)){
-                log.error('错误的分集地址,被抛弃,taskId:'+taskId);
+                log.warn('错误的分集地址,被抛弃,taskId:'+taskId+',url:'+url);
                 return true;
             }
             if(isNaN(no)){
-                log.error('错误的分集号,被抛弃,taskId:'+taskId);
+                log.warn('错误的分集号,被抛弃,taskId:'+taskId+',no:'+no);
                 return true;
             }
             if(!title){
-                log.error('错误的分集标题,被抛弃,taskId:'+taskId);
+                log.warn('错误的分集标题,被抛弃,taskId:'+taskId+',title:'+title);
                 return true;
             }
             animeList.push({
                 url:url,
-                episode_no:parseInt(no),
-                episode_name:title
+                episodeNo:parseInt(no),
+                episodeName:title
             })
         })
         return tool.nextPromise(null,animeList);
