@@ -14,13 +14,13 @@ module.exports=function(needStopGroup,needPostItem){
         return api.stopGroupTask(groupId);
     })
     let totalRound=Math.ceil(promiseList.length/CONFIG.maxQuestNum);
-    let promiseFunc;
+    let promiseFunc=tool.nextPromise(null,null);
     for(let i=0;i<totalRound;i++){
-        promiseFunc=function(){
+        promiseFunc=promiseFunc.then(function(){
             return Promise.all(promiseList.slice(i*CONFIG.maxQuestNum,(i+1)*CONFIG.maxQuestNum));
-        }
+        })
     }
-    return promiseFunc().then(function(){
+    return promiseFunc.then(function(){
         return Promise.all([stopPromiseList]);
     });
 }

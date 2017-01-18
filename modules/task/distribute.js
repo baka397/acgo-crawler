@@ -30,19 +30,19 @@ module.exports=function(groupObj,tasks){
         })
     })
     let totalRound=Math.ceil(promiseList.length/CONFIG.maxQuestNum);
-    let promiseFunc;
+    let promiseFunc=tool.nextPromise(null,[]);
     for(let i=0;i<totalRound;i++){
-        promiseFunc=function(result){
-            if(!result) result=[];
+        promiseFunc=promiseFunc.then(function(result){
+            let returnResult=[];
             return Promise.all(promiseList.slice(i*CONFIG.maxQuestNum,(i+1)*CONFIG.maxQuestNum)).then(function(list){
                 list.forEach(function(itemList){
-                    result=result.concat(itemList);
+                    returnResult=returnResult.concat(result,itemList);
                 })
-                return tool.nextPromise(null,result);
+                return tool.nextPromise(null,returnResult);
             });
-        }
+        });
     }
-    return promiseFunc().then(function(items){
+    return promiseFunc.then(function(items){
         return tool.nextPromise(null,[groupObj,items]);
     })
 }
