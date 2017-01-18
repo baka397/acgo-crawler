@@ -80,10 +80,16 @@ exports.getAnimeGroupTask=function(taskPeriod,page){
 
 exports.getAnimeGroupInfo=function(ids){
     return apiRequest(URL.getGroupList,{
-        ids:ids
+        ids:ids.toString()
     })
 }
 
 exports.addGroupItem=function(data){
     return apiRequest(URL.addGroupItem,data,'post')
+}
+
+exports.stopGroupTask=function(id){
+    return apiRequest(URL.getGrouptask+id,{
+        taskStatus:-1
+    },'put');
 }

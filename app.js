@@ -14,6 +14,7 @@ let taskPeriod = parseInt(process.env.NODE_TASK_PERIOD) || new Date().getDay();
 if(taskPeriod===0) taskPeriod=7;
 
 function app(){
+    let startTime=new Date().getTime();
     LOG.error('抓取任务开始执行');
     taskGetList(taskPeriod) //获取任务列表
     .then(function(list){ //获取剧集列表
@@ -25,11 +26,12 @@ function app(){
     .then(function(result){ //筛选任务
         return taskFilter(result[0],result[1]);
     })
-    .then(function(items){ //发送结果
-        return taskPost(items)
+    .then(function(result){ //发送结果
+        return taskPost(result[0],result[1])
     })
     .then(function(result){
-        console.log(JSON.stringify(result));
+        let endTime=new Date().getTime();
+        LOG.info('执行抓取任务成功,执行时间:',(endTime-startTime),'ms');
     })
     .catch(function(err){
         LOG.error('抓取任务执行失败');

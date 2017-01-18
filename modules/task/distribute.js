@@ -9,13 +9,15 @@ module.exports=function(groupObj,tasks){
     let onTask=tasks.filter(function(task){
         let group=groupObj[task.group_id];
         let curTime=new Date().getTime();
-        let updateTime=new Date(group.update_at).getTime();
-        let distance=Math.ceil((curTime-updateTime)/(1000*60*60));
-        if(distance<=24) return false;
+        if(group.episode_cur>0){
+            let updateTime=new Date(group.update_at).getTime();
+            let distance=Math.ceil((curTime-updateTime)/(1000*60*60));
+            if(distance<=24) return false;
+        }
         return true;
     });
     if(onTask.length===0){
-        throw new Error('没有需要发送的数据');
+        throw new Error('没有抓取的数据');
     }
     let promiseList=onTask.map(function(task){
         return crawler(groupObj[task.group_id].type,task._id,task.url).then(function(list){
