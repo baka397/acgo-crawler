@@ -10,5 +10,35 @@ export NODE_TASK_PERIOD=$1
 export NODE_ENV=$env
 export APP_PATH=$appPath
 export LOG_PATH=$logPath
-#########################start####################
-node $appPath/bin/start
+#########################init####################
+init() {
+    node $appPath/init.js
+}
+#########################starting####################
+start() {
+  echo start begin
+    node $appPath/bin/start
+  echo start end
+}
+#########################starting with day####################
+day() {
+    export NODE_TASK_PERIOD=$1
+    node $appPath/bin/start
+}
+
+case "$1" in
+    day)
+        $(day $2)
+        ;;
+    start)
+        start
+        ;;
+    init)
+        init
+        ;;
+    ?|help)
+        echo $"Usage: $0 {day|init|start|help|?}"
+        ;;
+    *)
+        echo $"Usage: $0 {help|?}"
+esac
