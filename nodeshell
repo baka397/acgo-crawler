@@ -17,7 +17,7 @@ init() {
 #########################starting####################
 start() {
   echo start begin
-    node $appPath/bin/start
+    pm2 start $appPath/timer.js -n $uid -l $logPath/log.log -e $logPath/error.log
   echo start end
 }
 #########################starting with day####################
