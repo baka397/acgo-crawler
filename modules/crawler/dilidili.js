@@ -16,6 +16,8 @@ module.exports=function(taskId,url){
         $animeDom.each(function(){
             let $bangumi=$(this);
             let url=$bangumi.attr('href');
+            let regMobile=/^(http:\/\/)m/;
+            if(regMobile.test(url)) url=url.replace(regMobile,'$1www')
             let no=$bangumi.find('em span').text().replace(/第(\d+)话/g,'$1').trim();
             let title=$bangumi.find('em').text().trim();
             title=title.replace(/^[\S\s]+\s第\S+话([\S\s]+)$/i,'$1').trim();

@@ -6,7 +6,6 @@ uid=crawler.acgo.club
 appPath=/home/website/App/$uid
 logPath=/home/website/Logs/$uid
 #########################env setting####################
-export NODE_TASK_PERIOD=$1
 export NODE_ENV=$env
 export APP_PATH=$appPath
 export LOG_PATH=$logPath
