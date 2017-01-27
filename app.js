@@ -10,10 +10,9 @@ const taskDistribute = require('./modules/task/distribute');
 const taskFilter = require('./modules/task/filter');
 const taskPost = require('./modules/task/post');
 
-let taskPeriod = parseInt(process.env.NODE_TASK_PERIOD) || new Date().getDay();
-if(taskPeriod===0) taskPeriod=7;
-
-function app(){
+function app(day){
+    let taskPeriod = parseInt(day) || new Date().getDay();
+    if(taskPeriod===0) taskPeriod=7;
     let startTime=new Date().getTime();
     LOG.error('抓取任务开始执行');
     taskGetList(taskPeriod) //获取任务列表

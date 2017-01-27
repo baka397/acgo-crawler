@@ -10,5 +10,63 @@ export NODE_TASK_PERIOD=$1
 export NODE_ENV=$env
 export APP_PATH=$appPath
 export LOG_PATH=$logPath
-#########################start####################
-node $appPath/bin/start
+#########################init####################
+init() {
+    node $appPath/init.js
+}
+#########################starting with day####################
+day() {
+    export NODE_TASK_PERIOD=$1
+    node $appPath/day.js
+}
+#########################starting####################
+start() {
+  echo start begin
+    pm2 start $appPath/timer.js -n $uid -l $logPath/log.log -e $logPath/error.log
+  echo start end
+}
+#########################status####################
+status(){
+  echo status begin
+    pm2 show $uid
+  echo status end
+}
+#########################stoping####################
+stop() {
+  echo stop begin
+    pm2 stop $uid
+  echo stop end
+}
+#########################restart####################
+restart(){
+  echo restart begin
+    stop
+    start
+  echo restart end
+}
+
+case "$1" in
+    day)
+        $(day $2)
+        ;;
+    init)
+        init
+        ;;
+    start)
+        start
+        ;;
+    status)
+        status
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    ?|help)
+        echo $"Usage: $0 {day|init|start|status|stop|restart|help|?}"
+        ;;
+    *)
+        echo $"Usage: $0 {help|?}"
+esac
