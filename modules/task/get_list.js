@@ -4,7 +4,7 @@ const tool = require('../../common/tool');
 
 module.exports=function(taskPeriod){
     //获取任务列表
-    LOG.info('开始获取抓取任务列表');
+    global.LOG.info('开始获取抓取任务列表');
     return api.getAnimeGroupTask(taskPeriod).then(function(result){
         //多页处理
         if(result.total>(result.page*result.pageSize)){
@@ -15,10 +15,10 @@ module.exports=function(taskPeriod){
                 return Promise.all(promiseList);
             }
         }else{
-            return tool.nextPromise(null,[result])
+            return tool.nextPromise(null,[result]);
         }
     }).then(function(datas){
-        LOG.info('开始组装任务列表');
+        global.LOG.info('开始组装任务列表');
         let list=[];
         datas.forEach(function(data){
             if(data.content.length>0) list=list.concat(data.content);
@@ -28,5 +28,5 @@ module.exports=function(taskPeriod){
         }else{
             return tool.nextPromise(null,list);
         }
-    })
-}
+    });
+};

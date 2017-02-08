@@ -1,10 +1,9 @@
 'use strict';
-const api = require('../api');
 const tool = require('../../common/tool');
 const crawler = require('../crawler/');
 
 module.exports=function(groupObj,tasks){
-    LOG.info('开始分发抓取任务');
+    global.LOG.info('开始分发抓取任务');
     //筛选
     let onTask=tasks.filter(function(task){
         let group=groupObj[task.group_id];
@@ -24,25 +23,25 @@ module.exports=function(groupObj,tasks){
             let result=list.map(function(item){
                 return Object.assign({},item,{
                     groupId:task.group_id
-                })
-            })
+                });
+            });
             return tool.nextPromise(null,result);
-        })
-    })
-    let totalRound=Math.ceil(promiseList.length/CONFIG.maxQuestNum);
+        });
+    });
+    let totalRound=Math.ceil(promiseList.length/global.CONFIG.maxQuestNum);
     let promiseFunc=tool.nextPromise(null,[]);
     for(let i=0;i<totalRound;i++){
         promiseFunc=promiseFunc.then(function(result){
             let returnResult=[];
-            return Promise.all(promiseList.slice(i*CONFIG.maxQuestNum,(i+1)*CONFIG.maxQuestNum)).then(function(list){
+            return Promise.all(promiseList.slice(i*global.CONFIG.maxQuestNum,(i+1)*global.CONFIG.maxQuestNum)).then(function(list){
                 list.forEach(function(itemList){
                     returnResult=returnResult.concat(result,itemList);
-                })
+                });
                 return tool.nextPromise(null,returnResult);
             });
         });
     }
     return promiseFunc.then(function(items){
         return tool.nextPromise(null,[groupObj,items]);
-    })
-}
+    });
+};

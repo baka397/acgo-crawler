@@ -35,8 +35,8 @@ module.exports=function(taskId,url){
                 url:url,
                 episodeNo:parseInt(no),
                 episodeName:title
-            })
-        })
+            });
+        });
         return tool.nextPromise(null,animeList);
-    })
-}
+    });
+};

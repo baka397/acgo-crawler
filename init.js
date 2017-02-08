@@ -11,11 +11,11 @@ request.post(config.apiPath+'/user/')
     'code':config.apiCode
 })
 .set(apiTokenParams)
-.end(function(err,res){
+.end(function(err){
     if(err){
-        console.log(err);
+        global.console.log(err);
     }else{
-        console.log('应用初始化完成');
+        global.console.log('应用初始化完成');
     }
     process.exit(1);
 });

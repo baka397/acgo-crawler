@@ -11,11 +11,11 @@ const tool = require('../../common/tool');
  */
 module.exports=function(type,taskId,url){
     switch(type){
-        case 1:
-            return bilibili(taskId,url);
-        case 2:
-            return dilidili(taskId,url);
-        default:
-            return tool.nextPromise(new Error('错误的抓取任务类型'));
+    case 1:
+        return bilibili(taskId,url);
+    case 2:
+        return dilidili(taskId,url);
+    default:
+        return tool.nextPromise(new Error('错误的抓取任务类型'));
     }
-}
+};

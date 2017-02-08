@@ -15,4 +15,4 @@ exports.type={
         'taskRegExp':/^http:\/\/www.iqiyi.com\/a_[a-z0-9\_]+.html$/i,
         'itemRegExp':/^http:\/\/www.iqiyi.com\/dongman\/\d+\/[a-z0-9\_\-]+.html$/i
     }
-}
+};

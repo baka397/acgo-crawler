@@ -14,6 +14,6 @@ module.exports=function(url){
             if(err) return reject(err);
             let $=cheerio.load(res.text);
             resolve($);
-        })
-    })
-}
+        });
+    });
+};

@@ -14,10 +14,10 @@ function app(day){
     let taskPeriod = parseInt(day) || new Date().getDay();
     if(taskPeriod===0) taskPeriod=7;
     let startTime=new Date().getTime();
-    LOG.error('抓取任务开始执行');
+    global.LOG.error('抓取任务开始执行');
     taskGetList(taskPeriod) //获取任务列表
     .then(function(list){ //获取剧集列表
-        return Promise.all([taskGetGroup(list),tool.nextPromise(null,list)])
+        return Promise.all([taskGetGroup(list),tool.nextPromise(null,list)]);
     })
     .then(function(result){ //分发任务
         return taskDistribute(result[0],result[1]);
@@ -26,16 +26,16 @@ function app(day){
         return taskFilter(result[0],result[1]);
     })
     .then(function(result){ //发送结果
-        return taskPost(result[0],result[1])
+        return taskPost(result[0],result[1]);
     })
-    .then(function(result){
+    .then(function(){
         let endTime=new Date().getTime();
-        LOG.info('执行抓取任务成功,执行时间:',(endTime-startTime),'ms');
+        global.LOG.info('执行抓取任务成功,执行时间:',(endTime-startTime),'ms');
     })
     .catch(function(err){
-        LOG.error('抓取任务执行失败');
-        LOG.error(err);
-    })
+        global.LOG.error('抓取任务执行失败');
+        global.LOG.error(err);
+    });
 }
 
 module.exports=app;

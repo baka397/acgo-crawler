@@ -1,5 +1,4 @@
 'use strict';
-let pkg = require('../package.json');
 
 // 默认配置
 let defaultConfig = {
@@ -16,12 +15,16 @@ let defaultConfig = {
     },
     maxQuestNum:5,                                          // 同时处理的任务数
     intervalTime:30                                         // 执行任务间隔时间(s)
-}
+};
 // 启动配置，部署环境变量：dev、test、uat、online
 let startupConfig = process.env.CFG_PATH || ('./config-' + (process.env.NODE_ENV || 'dev'));
 // 获取环境配置
 let config = {};
-try {console.log('启动配置文件：%s', startupConfig);config = require(startupConfig);} catch(e) {console.error('未找到启动配置：%s', startupConfig)};
+try {
+    global.console.log('启动配置文件：%s', startupConfig);config = require(startupConfig);
+} catch(e) {
+    global.console.error('未找到启动配置：%s', startupConfig);
+}
 // 获取当前部署环境对应配置
 config = Object.assign({}, defaultConfig, config || {});
 

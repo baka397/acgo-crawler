@@ -10,8 +10,8 @@ exports.nextPromise = function(err,data){
     return new Promise(function(resolve,reject){
         if(err) reject(err);
         else resolve(data);
-    })
-}
+    });
+};
 
 /**
  * 格式化日期
@@ -39,4 +39,4 @@ exports.formatDate=function(dateString,format){
     return_date=return_date.replace('mm',min);
     return_date=return_date.replace('ss',sec);
     return return_date;
-}
+};
