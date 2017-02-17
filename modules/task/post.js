@@ -8,7 +8,9 @@ module.exports=function(needStopGroup,needPostItem){
         throw new Error('没有需要发送的数据');
     }
     let promiseList=needPostItem.map(function(item){
-        return api.addGroupItem(item);
+        return function(){
+            return api.addGroupItem(item);
+        };
     });
     return tool.buildPromiseListByPage(promiseList,global.CONFIG.maxQuestNum)
     .then(function(){

@@ -32,6 +32,10 @@ module.exports=function(groupObj,tasks){
     });
     return tool.buildPromiseListByPage(promiseList,global.CONFIG.maxQuestNum)
     .then(function(items){
-        return tool.nextPromise(null,[groupObj,items]);
+        let data=[];
+        items.slice(1).forEach(function(item){
+            data=data.concat(item);
+        });
+        return tool.nextPromise(null,[groupObj,data]);
     });
 };
