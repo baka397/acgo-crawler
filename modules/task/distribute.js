@@ -19,29 +19,19 @@ module.exports=function(groupObj,tasks){
         throw new Error('没有抓取的数据');
     }
     let promiseList=onTask.map(function(task){
-        return crawler(groupObj[task.group_id].type,task._id,task.url).then(function(list){
-            let result=list.map(function(item){
-                return Object.assign({},item,{
-                    groupId:task.group_id
+        return function(){
+            return crawler(groupObj[task.group_id].type,task._id,task.url).then(function(list){
+                let result=list.map(function(item){
+                    return Object.assign({},item,{
+                        groupId:task.group_id
+                    });
                 });
+                return tool.nextPromise(null,result);
             });
-            return tool.nextPromise(null,result);
-        });
+        };
     });
-    let totalRound=Math.ceil(promiseList.length/global.CONFIG.maxQuestNum);
-    let promiseFunc=tool.nextPromise(null,[]);
-    for(let i=0;i<totalRound;i++){
-        promiseFunc=promiseFunc.then(function(result){
-            let returnResult=[];
-            return Promise.all(promiseList.slice(i*global.CONFIG.maxQuestNum,(i+1)*global.CONFIG.maxQuestNum)).then(function(list){
-                list.forEach(function(itemList){
-                    returnResult=returnResult.concat(result,itemList);
-                });
-                return tool.nextPromise(null,returnResult);
-            });
-        });
-    }
-    return promiseFunc.then(function(items){
+    return tool.buildPromiseListByPage(promiseList,global.CONFIG.maxQuestNum)
+    .then(function(items){
         return tool.nextPromise(null,[groupObj,items]);
     });
 };

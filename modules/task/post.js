@@ -10,17 +10,11 @@ module.exports=function(needStopGroup,needPostItem){
     let promiseList=needPostItem.map(function(item){
         return api.addGroupItem(item);
     });
-    let stopPromiseList=needStopGroup.map(function(groupId){
-        return api.stopGroupTask(groupId);
-    });
-    let totalRound=Math.ceil(promiseList.length/global.CONFIG.maxQuestNum);
-    let promiseFunc=tool.nextPromise(null,null);
-    for(let i=0;i<totalRound;i++){
-        promiseFunc=promiseFunc.then(function(){
-            return Promise.all(promiseList.slice(i*global.CONFIG.maxQuestNum,(i+1)*global.CONFIG.maxQuestNum));
+    return tool.buildPromiseListByPage(promiseList,global.CONFIG.maxQuestNum)
+    .then(function(){
+        let stopPromiseList=needStopGroup.map(function(groupId){
+            return api.stopGroupTask(groupId);
         });
-    }
-    return promiseFunc.then(function(){
         return Promise.all([stopPromiseList]);
     });
 };
