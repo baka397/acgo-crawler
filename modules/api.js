@@ -10,10 +10,12 @@ const URL = {
     getGroupList: PATH+'/anime-group/ids/',
     addGroupItem: PATH+'/anime-group/item/'
 };
-let apiTokenParams=authTool.getTokenParams(global.CONFIG.apiKey,global.CONFIG.apiAlias);
+let apiKey;
 function getTokenParam(){
     return new Promise(function(resolve,reject){
-        if(apiTokenParams['x-req-key']){
+        let apiTokenParams=authTool.getTokenParams(global.CONFIG.apiKey,global.CONFIG.apiAlias);
+        if(apiKey){
+            apiTokenParams['x-req-key']=apiKey;
             resolve(apiTokenParams);
         }else{
             request.post(URL.userLogin)
@@ -25,7 +27,8 @@ function getTokenParam(){
             .end(function(err,res){
                 if(err) reject(err);
                 else{
-                    apiTokenParams['x-req-key']=res.body.data.key;
+                    apiKey=res.body.data.key;
+                    apiTokenParams['x-req-key']=apiKey;
                     resolve(apiTokenParams);
                 }
             });
