@@ -28,7 +28,7 @@ ACGO crawler Project
 ```
 //window
 set NODE_TASK_PERIOD=6 //设置周期
-npm start //启动任务
+node day //启动任务
 //linux
 nodeshell 6 //使用shell配置周期
 ```
