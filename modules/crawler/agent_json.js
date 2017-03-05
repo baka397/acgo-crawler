@@ -9,7 +9,7 @@ module.exports=function(url,callbackName){
             deadline: 60000, // but allow 1 minute for the file to finish loading.
         })
         .end(function(err,res){
-            if(parseInt(err.statusCode)!==200) return reject(err);
+            if(err&&parseInt(err.statusCode)!==200) return reject(err);
             try{
                 let backData=err?err.rawResponse:res.text;
                 if(callbackName){
