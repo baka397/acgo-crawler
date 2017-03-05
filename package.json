@@ -1,6 +1,6 @@
 {
   "name": "acgo-crawler",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "NodeJs crawler system for acgo website",
   "private": true,
   "scripts": {
