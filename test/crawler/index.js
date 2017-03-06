@@ -14,6 +14,18 @@ module.exports=function(){
                 done();
             })
         });
+        it('Test empty data alert mail', function (done) {
+            this.timeout(4000);
+            crawler(1,1,'http://bangumi.bilibili.com/anime/4209')
+            .then(function(result){
+                if(result.length!==0) throw new Error('验证不符合预期');
+                done()
+            })
+            .catch(function(err){
+                console.log(err.message);
+                done();
+            })
+        });
     });
     describe('Crawler Type Test', function(){
         bilibiliTest(crawler);

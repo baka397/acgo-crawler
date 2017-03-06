@@ -2,23 +2,20 @@
 const tool = require('../../common/tool');
 const log = require('../../common/log');
 const ANIME_GROUP = require('../../enums/anime_group');
-const agentJSON = require('./agent');
+const agentJson = require('./agent_json');
 const groupType='1';
 
 module.exports=function(taskId,url){
-    if(!ANIME_GROUP.type[groupType].taskRegExp.test(url)){
-        let err=new Error('错误的任务地址,taskId:'+taskId);
-        return tool.nextPromise(err);
-    }
-    return agent(url).then(function($){
+    let callbackName='seasonListCallback';
+    let jsonUrl='http://bangumi.bilibili.com/jsonp/seasoninfo/'+url.replace(/^http:\/\/bangumi.bilibili.com\/anime\/(\d+)(|\/)$/i,'$1')+'.ver?callback='+callbackName+'&jsonp=jsonp&_='+new Date().getTime();
+    return agentJson(jsonUrl,callbackName).then(function(result){
         let animeList=[];
-        let $animeDom=$('.complete-list .v1-bangumi-list-part-child');
-        $animeDom.each(function(){
-            let $this=$(this);
-            let $bangumi=$this.find('.v1-complete-text');
-            let url='http:'+$bangumi.attr('href');
-            let no=$bangumi.find('.text-wrp-num-content').text().replace(/第(\d+)话/g,'$1').trim();
-            let title=$bangumi.find('.text-wrp-title').text().trim();
+        result.result.episodes.sort(function(before,after){
+            return parseInt(before.index) - parseInt(after.index);
+        }).forEach(function(ep){
+            let url=ep.webplay_url;
+            let no=parseInt(ep.index);
+            let title=ep.index_title;
             if(!ANIME_GROUP.type[groupType].itemRegExp.test(url)){
                 log.warn('错误的分集地址,被抛弃,taskId:'+taskId+',url:'+url);
                 return true;

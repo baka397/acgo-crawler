@@ -60,9 +60,13 @@ function apiRequest(url,data,method){
                     return reject(err);
                 }
                 global.LOG.info(JSON.stringify(res.body));
-                if(res.code!==200||res.body.code!==STATUS_CODE.SUCCESS){
+                if(res.status===200&&res.body.code===STATUS_CODE.SUCCESS){
                     return resolve(res.body.data);
                 }else{
+                    //处理权限错误
+                    if(res.status===403||res.body.code===STATUS_CODE.FORBIDDEN){
+                        apiKey='';
+                    }
                     let error = new Error(res.body.msg||'API处理错误');
                     error.status = res.body.code||res.status;
                     return reject(error);

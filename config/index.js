@@ -13,6 +13,11 @@ let defaultConfig = {
         type: 'console',                                    // 日志打印类型：console、fileLog、dateFileLog
         level: 'debug'                                      // 日志打印级别：trace、debug、info、warn、error、fatal
     },
+    mailgun:{                                               //邮件系统配置
+        apiKey:'key-4gbycm953yvy11aqupebl9to5u0qapg8',
+        domain:'mail.acgo.club'
+    },
+    mailAlertList:['cqggff@live.com'],                      // 发送报警邮件邮箱
     maxQuestNum:5,                                          // 同时处理的任务数
     intervalTime:30                                         // 执行任务间隔时间(s)
 };

@@ -2,6 +2,8 @@
 const bilibili=require('./bilibili');
 const dilidili=require('./dilidili');
 const tool = require('../../common/tool');
+const mail = require('../../common/mail');
+
 /**
  * 抓取任务
  * @param  {Number} type   抓取类型
@@ -10,11 +12,19 @@ const tool = require('../../common/tool');
  * @return {Object}        Promise对象
  */
 module.exports=function(type,taskId,url){
+    function checkAnimeList(animeList){
+        if(animeList.length===0){
+            return mail.sendAlertMail(type,taskId,url).then(function(){
+                return tool.nextPromise(null,animeList);
+            });   
+        }
+        return tool.nextPromise(null,animeList);
+    }
     switch(type){
     case 1:
-        return bilibili(taskId,url);
+        return bilibili(taskId,url).then(checkAnimeList);
     case 2:
-        return dilidili(taskId,url);
+        return dilidili(taskId,url).then(checkAnimeList);
     default:
         return tool.nextPromise(new Error('错误的抓取任务类型'));
     }
