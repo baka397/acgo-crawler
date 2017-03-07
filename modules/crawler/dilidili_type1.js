@@ -12,7 +12,7 @@ module.exports=function($,$animeDom,taskId){
         let regMobile=/^(http:\/\/)m/;
         if(regMobile.test(url)) url=url.replace(regMobile,'$1www');
         let no=$bangumi.find('em span').text().replace(/第(\d+)话/g,'$1').trim();
-        let title=$bangumi.find('em').text().trim();
+        let title=$bangumi.find('em').text().trim()||'无标题';
         title=title.replace(/^[\S\s]+\s第\S+话([\S\s]+)$/i,'$1').trim();
         if(!ANIME_GROUP.type[groupType].itemRegExp.test(url)){
             log.warn('错误的分集地址,被抛弃,taskId:'+taskId+',url:'+url);
@@ -20,10 +20,6 @@ module.exports=function($,$animeDom,taskId){
         }
         if(isNaN(no)){
             log.warn('错误的分集号,被抛弃,taskId:'+taskId+',no:'+no);
-            return true;
-        }
-        if(!title){
-            log.warn('错误的分集标题,被抛弃,taskId:'+taskId+',title:'+title);
             return true;
         }
         animeList.push({

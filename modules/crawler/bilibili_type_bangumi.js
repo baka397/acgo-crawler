@@ -15,17 +15,13 @@ module.exports=function(taskId,url){
         }).forEach(function(ep){
             let url=ep.webplay_url;
             let no=parseInt(ep.index);
-            let title=ep.index_title;
+            let title=ep.index_title||'无标题';
             if(!ANIME_GROUP.type[groupType].itemRegExp.test(url)){
                 log.warn('错误的分集地址,被抛弃,taskId:'+taskId+',url:'+url);
                 return true;
             }
             if(isNaN(no)){
                 log.warn('错误的分集号,被抛弃,taskId:'+taskId+',no:'+no);
-                return true;
-            }
-            if(!title){
-                log.warn('错误的分集标题,被抛弃,taskId:'+taskId+',title:'+title);
                 return true;
             }
             animeList.push({
