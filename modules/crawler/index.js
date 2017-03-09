@@ -1,6 +1,7 @@
 'use strict';
 const bilibili=require('./bilibili');
 const dilidili=require('./dilidili');
+const pptv=require('./pptv');
 const tool = require('../../common/tool');
 const mail = require('../../common/mail');
 
@@ -25,6 +26,8 @@ module.exports=function(type,taskId,url){
         return bilibili(taskId,url).then(checkAnimeList);
     case 2:
         return dilidili(taskId,url).then(checkAnimeList);
+    case 4:
+        return pptv(taskId,url).then(checkAnimeList);
     default:
         return tool.nextPromise(new Error('错误的抓取任务类型'));
     }
