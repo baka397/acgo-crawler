@@ -20,7 +20,7 @@ module.exports=function(groupObj,tasks){
     }
     let promiseList=onTask.map(function(task){
         return function(){
-            return crawler(groupObj[task.group_id].type,task._id,task.url).then(function(list){
+            return crawler(groupObj[task.group_id].type,task._id,task.url,groupObj[task.group_id].episode_cur).then(function(list){
                 let result=list.map(function(item){
                     return Object.assign({},item,{
                         groupId:task.group_id
