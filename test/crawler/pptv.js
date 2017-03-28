@@ -16,10 +16,14 @@ module.exports=function(crawler){
         })
         it('Crawler mulit page result', function (done) {
             this.timeout(20*1000);
-            crawler(4,1,'http://v.pptv.com/page/WIlz8VmicL23QTrY.html')
+            crawler(4,1,'http://v.pptv.com/page/Jwr1c9tBse9S0Dg.html')
             .then(function(result){
-                if(result.length!==148) throw new Error('验证不符合预期');
+                if(result.length!==64) throw new Error('验证不符合预期');
                 if(!result.every(function(item,index){
+                    if(item.episodeNo!==index+1){
+                        console.log(index);
+                        console.log(item.episodeNo);
+                    }
                     return item.episodeNo===index+1;
                 })) throw new Error('验证不符合预期');
                 done();
