@@ -1,9 +1,10 @@
 'use strict';
+const tool = require('../../common/tool');
+const mail = require('../../common/mail');
 const bilibili=require('./bilibili');
 const dilidili=require('./dilidili');
 const pptv=require('./pptv');
-const tool = require('../../common/tool');
-const mail = require('../../common/mail');
+const iqiyi=require('./iqiyi');
 
 /**
  * 抓取任务
@@ -27,6 +28,8 @@ module.exports=function(type,taskId,url,startNo){
         return bilibili(taskId,url).then(checkAnimeList);
     case 2:
         return dilidili(taskId,url).then(checkAnimeList);
+    case 3:
+        return iqiyi(taskId,url).then(checkAnimeList);
     case 4:
         return pptv(taskId,url).then(checkAnimeList);
     default:

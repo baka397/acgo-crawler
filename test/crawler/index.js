@@ -3,6 +3,7 @@ const crawler = require('../../modules/crawler/');
 const bilibiliTest = require('./bilibili');
 const dilidiliTest = require('./dilidili');
 const pptvTest = require('./pptv');
+const iqiyiTest = require('./iqiyi');
 module.exports=function(){
     describe('Common', function(){
         it('Wrong type', function (done) {
@@ -32,5 +33,6 @@ module.exports=function(){
         bilibiliTest(crawler);
         dilidiliTest(crawler);
         pptvTest(crawler);
+        iqiyiTest(crawler);
     })
 }
