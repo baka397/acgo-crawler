@@ -3,8 +3,8 @@ const tool = require('../../common/tool');
 const ANIME_GROUP = require('../../enums/anime_group');
 const agent = require('./agent');
 const groupType='4';
-const typeSingle = require('./ppty_type_single');
-const typePage = require('./ppty_type_page');
+const typeSingle = require('./pptv_type_single');
+const typePage = require('./pptv_type_page');
 
 module.exports=function(taskId,url){
     if(!ANIME_GROUP.type[groupType].taskRegExp.test(url)){
@@ -16,7 +16,7 @@ module.exports=function(taskId,url){
         if($animeListDom.length===0){
             return typeSingle($,$('#juji_1 a'),taskId);
         }else{
-            var text=$.html();
+            let text=$.html();
             let flipIdFindResult=text.match(/\{\"id\"\:(\d+)\,\"id_encode\"/);
             if(flipIdFindResult){
                 return typeSingle($,$('#juji_1 a'),taskId).then(function(singleList){
